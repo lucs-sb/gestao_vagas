@@ -31,13 +31,13 @@ public class AuthCompanyUseCase {
 
     public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         Optional<CompanyEntity> company = Optional.ofNullable(
-                this.companyRepository.findByUsername(authCompanyDTO.getUsername())
+                this.companyRepository.findByUsername(authCompanyDTO.username())
                     .orElseThrow(
                         () -> new UsernameNotFoundException("username/password incorrect")
                     )
         );
 
-        boolean passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.get().getPassword());
+        boolean passwordMatches = this.passwordEncoder.matches(authCompanyDTO.password(), company.get().getPassword());
 
         if (!passwordMatches)
             throw new AuthenticationException("username/password incorrect");
