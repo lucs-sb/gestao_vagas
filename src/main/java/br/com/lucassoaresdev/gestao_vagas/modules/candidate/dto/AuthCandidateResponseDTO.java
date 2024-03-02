@@ -1,4 +1,6 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.candidate.dto;
 
-public record AuthCandidateResponseDTO(String access_token) {
+import java.util.Date;
+
+public record AuthCandidateResponseDTO(String access_token, long expires_in) {
 }

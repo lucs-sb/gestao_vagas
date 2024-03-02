@@ -40,12 +40,14 @@ public class AuthCandidateUseCase {
 
         Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
 
+        Instant expires_in = Instant.now().plus(Duration.ofMinutes(10));
+
         String token = JWT.create().withIssuer("javagas")
                 .withSubject(candidate.get().getId().toString())
                 .withClaim("roles", Arrays.asList("candidate"))
-                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(10)))
+                .withExpiresAt(expires_in)
                 .sign(algorithm);
 
-        return new AuthCandidateResponseDTO(token);
+        return new AuthCandidateResponseDTO(token, expires_in.toEpochMilli());
     }
 }
