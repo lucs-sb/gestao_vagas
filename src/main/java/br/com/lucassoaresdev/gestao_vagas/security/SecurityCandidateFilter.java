@@ -24,7 +24,7 @@ public class SecurityCandidateFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        SecurityContextHolder.getContext().setAuthentication(null);
+       // SecurityContextHolder.getContext().setAuthentication(null);
 
         String header = request.getHeader("Authorization");
 
@@ -39,7 +39,7 @@ public class SecurityCandidateFilter extends OncePerRequestFilter {
 
                 request.setAttribute("candidate_id", token.getSubject());
                 List<String> roles = token.getClaim("roles").asList(String.class);
-                List<SimpleGrantedAuthority> grants = roles.stream().map(SimpleGrantedAuthority::new).toList();
+                List<SimpleGrantedAuthority> grants = roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).toList();
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(token.getSubject(), null, grants);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }

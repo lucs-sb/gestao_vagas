@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,7 +44,7 @@ public class AuthCandidateUseCase {
 
         String token = JWT.create().withIssuer("javagas")
                 .withSubject(candidate.get().getId().toString())
-                .withClaim("roles", Arrays.asList("candidate"))
+                .withClaim("roles", List.of("CANDIDATE"))
                 .withExpiresAt(expires_in)
                 .sign(algorithm);
 
