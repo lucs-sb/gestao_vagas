@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JWTCandidateProvider {
+
     @Value("${security.token.secret.candidate}")
     private String secretKey;
 
