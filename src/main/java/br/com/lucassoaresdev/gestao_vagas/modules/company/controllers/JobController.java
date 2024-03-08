@@ -1,6 +1,6 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.company.controllers;
 
-import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.CreateJobDTO;
+import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.CreateJobRequestDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.entities.JobEntity;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.useCases.CreateJobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class JobController {
 
     @PostMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<JobEntity> create(@Valid @RequestBody CreateJobDTO jobDTO, HttpServletRequest request) {
+    public ResponseEntity<JobEntity> create(@Valid @RequestBody CreateJobRequestDTO jobDTO, HttpServletRequest request) {
 
         JobEntity job = JobEntity.builder()
                 .companyId(UUID.fromString(request.getAttribute("company_id").toString()))

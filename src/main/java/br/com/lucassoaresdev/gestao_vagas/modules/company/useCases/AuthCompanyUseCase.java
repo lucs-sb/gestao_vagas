@@ -2,7 +2,7 @@ package br.com.lucassoaresdev.gestao_vagas.modules.company.useCases;
 
 import javax.naming.AuthenticationException;
 
-import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.AuthCompanyDTO;
+import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.AuthCompanyRequestDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.entities.CompanyEntity;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.repositories.CompanyRepository;
@@ -31,15 +31,15 @@ public class AuthCompanyUseCase {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+    public AuthCompanyResponseDTO execute(AuthCompanyRequestDTO authCompanyRequestDTO) throws AuthenticationException {
         Optional<CompanyEntity> company = Optional.ofNullable(
-                this.companyRepository.findByUsername(authCompanyDTO.username())
+                this.companyRepository.findByUsername(authCompanyRequestDTO.username())
                     .orElseThrow(
                         () -> new UsernameNotFoundException("username/password incorrect")
                     )
         );
 
-        boolean passwordMatches = this.passwordEncoder.matches(authCompanyDTO.password(), company.get().getPassword());
+        boolean passwordMatches = this.passwordEncoder.matches(authCompanyRequestDTO.password(), company.get().getPassword());
 
         if (!passwordMatches)
             throw new AuthenticationException("username/password incorrect");
