@@ -1,6 +1,6 @@
 package br.com.lucassoaresdev.gestao_vagas.security;
 
-import br.com.lucassoaresdev.gestao_vagas.providers.JWTProvider;
+import br.com.lucassoaresdev.gestao_vagas.providers.JWTCompanyProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityCompanyFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JWTProvider jwtProvider;
+    private JWTCompanyProvider jwtProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

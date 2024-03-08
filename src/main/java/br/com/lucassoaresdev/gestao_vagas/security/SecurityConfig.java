@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,13 +14,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    private SecurityFilter securityFilter;
+    private SecurityCompanyFilter securityCompanyFilter;
 
-    @Autowired SecurityCandidateFilter securityCandidateFilter;
+    @Autowired
+    private SecurityCandidateFilter securityCandidateFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                         auth.requestMatchers("/candidate").permitAll()
                                 .requestMatchers("/company").permitAll()
@@ -28,7 +30,7 @@ public class SecurityConfig {
                         auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(this.securityCandidateFilter, BasicAuthenticationFilter.class)
-                .addFilterBefore(this.securityFilter, BasicAuthenticationFilter.class);
+                .addFilterBefore(this.securityCompanyFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
 
