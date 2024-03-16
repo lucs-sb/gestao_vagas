@@ -1,6 +1,7 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.candidate.dto;
 
-import java.util.Date;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-public record AuthCandidateResponseDTO(String access_token, long expires_in) {
+public record AuthCandidateResponseDTO(@Schema(example = "gfffffffdfhzrhrhtr") String access_token,
+                                       @Schema(example = "2000") long expires_in) {
 }
