@@ -6,6 +6,7 @@ import br.com.lucassoaresdev.gestao_vagas.modules.company.useCases.AuthCompanyUs
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +31,7 @@ public class AuthCompanyController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = AuthCompanyResponseDTO.class))}),
             @ApiResponse(responseCode = "401", description = "Username/password incorrect")
     })
-    public ResponseEntity<Object> create(AuthCompanyRequestDTO authCompanyRequestDTO) {
+    public ResponseEntity<Object> create(@RequestBody AuthCompanyRequestDTO authCompanyRequestDTO) {
         try {
             AuthCompanyResponseDTO response = authCompanyUseCase.execute(authCompanyRequestDTO);
             return ResponseEntity.ok().body(response);

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class AuthCandidateController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = AuthCandidateResponseDTO.class))}),
             @ApiResponse(responseCode = "401", description = "Username/password incorrect")
     })
-    public ResponseEntity<Object> create(AuthCandidateRequestDTO authCandidateRequestDTO) {
+    public ResponseEntity<Object> create(@RequestBody AuthCandidateRequestDTO authCandidateRequestDTO) {
         try {
             AuthCandidateResponseDTO jwt = this.authCandidateUseCase.execute(authCandidateRequestDTO);
             return ResponseEntity.ok().body(jwt);

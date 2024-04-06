@@ -22,7 +22,7 @@ import java.util.Optional;
 @Service
 public class AuthCompanyUseCase {
 
-    @Value("${security.token.secret}")
+    @Value("${security.token.secret.company}")
     private String secretKey;
 
     @Autowired
