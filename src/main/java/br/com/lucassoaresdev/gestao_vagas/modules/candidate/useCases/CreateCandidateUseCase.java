@@ -1,8 +1,8 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.candidate.useCases;
 
 import br.com.lucassoaresdev.gestao_vagas.exceptions.UserFoundException;
-import br.com.lucassoaresdev.gestao_vagas.modules.candidate.CandidateEntity;
-import br.com.lucassoaresdev.gestao_vagas.modules.candidate.CandidateRepository;
+import br.com.lucassoaresdev.gestao_vagas.modules.candidate.entity.CandidateEntity;
+import br.com.lucassoaresdev.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

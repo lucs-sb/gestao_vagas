@@ -1,7 +1,7 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.candidate.useCases;
 
-import br.com.lucassoaresdev.gestao_vagas.modules.candidate.CandidateEntity;
-import br.com.lucassoaresdev.gestao_vagas.modules.candidate.CandidateRepository;
+import br.com.lucassoaresdev.gestao_vagas.modules.candidate.entity.CandidateEntity;
+import br.com.lucassoaresdev.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.dto.AuthCandidateResponseDTO;
 import com.auth0.jwt.JWT;
