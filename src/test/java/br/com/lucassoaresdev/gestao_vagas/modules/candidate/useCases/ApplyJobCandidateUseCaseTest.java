@@ -8,18 +8,21 @@ import br.com.lucassoaresdev.gestao_vagas.modules.candidate.repository.ApplyJobR
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.entities.JobEntity;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.repositories.JobRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,14 +54,14 @@ public class ApplyJobCandidateUseCaseTest {
     @DisplayName("Should not be able to apply job with job not found")
     public void should_not_be_able_to_apply_job_with_job_not_found() {
         try {
-            UUID canidateId = UUID.randomUUID();
+            UUID candidateId = UUID.randomUUID();
 
             CandidateEntity candidate = new CandidateEntity();
-            candidate.setId(canidateId);
+            candidate.setId(candidateId);
 
-            when(candidateRepository.findById(canidateId)).thenReturn(Optional.of(candidate));
+            when(candidateRepository.findById(candidateId)).thenReturn(Optional.of(candidate));
 
-            applyJobCandidateUseCase.execute(canidateId, null);
+            applyJobCandidateUseCase.execute(candidateId, null);
 
         } catch (Exception ex) {
             assertThat(ex).isInstanceOf(JobNotFoundException.class);
@@ -72,19 +75,13 @@ public class ApplyJobCandidateUseCaseTest {
         UUID candidateId = UUID.randomUUID();
         UUID jobId = UUID.randomUUID();
 
-        ApplyJobEntity applyJob = new ApplyJobEntity();
-        applyJob.setCandidateId(candidateId);
-        applyJob.setJobId(jobId);
-
         ApplyJobEntity applyJobCreated = new ApplyJobEntity();
         applyJobCreated.setId(UUID.randomUUID());
 
         when(candidateRepository.findById(candidateId)).thenReturn(Optional.of(new CandidateEntity()));
         when(jobRepository.findById(jobId)).thenReturn(Optional.of(new JobEntity()));
 
-        when(applyJobRepository.save(applyJob)).thenReturn(applyJobCreated);
-
-
+        when(applyJobRepository.save(any())).thenReturn(applyJobCreated);
 
         ApplyJobEntity result = applyJobCandidateUseCase.execute(candidateId, jobId);
 

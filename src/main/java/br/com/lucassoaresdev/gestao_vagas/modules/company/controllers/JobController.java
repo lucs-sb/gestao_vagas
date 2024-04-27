@@ -37,15 +37,19 @@ public class JobController {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = JobEntity.class))})
     })
     @SecurityRequirement(name = "jwt_auth")
-    public ResponseEntity<JobEntity> create(@Valid @RequestBody CreateJobRequestDTO jobDTO, HttpServletRequest request) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateJobRequestDTO jobDTO, HttpServletRequest request) {
 
-        JobEntity job = JobEntity.builder()
-                .companyId(UUID.fromString(request.getAttribute("company_id").toString()))
-                .benefits(jobDTO.benefits())
-                .description(jobDTO.description())
-                .level(jobDTO.level())
-                .build();
+        try {
+            JobEntity job = JobEntity.builder()
+                    .companyId(UUID.fromString(request.getAttribute("company_id").toString()))
+                    .benefits(jobDTO.benefits())
+                    .description(jobDTO.description())
+                    .level(jobDTO.level())
+                    .build();
 
-        return ResponseEntity.accepted().body(this.createJobUseCase.execute(job));
+            return ResponseEntity.accepted().body(this.createJobUseCase.execute(job));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
