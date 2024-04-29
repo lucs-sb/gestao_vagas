@@ -2,6 +2,7 @@ package br.com.lucassoaresdev.gestao_vagas.modules.company.useCases;
 
 import javax.naming.AuthenticationException;
 
+import br.com.lucassoaresdev.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.AuthCompanyRequestDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.dto.AuthCompanyResponseDTO;
 import br.com.lucassoaresdev.gestao_vagas.modules.company.entities.CompanyEntity;
@@ -10,7 +11,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +33,7 @@ public class AuthCompanyUseCase {
 
     public AuthCompanyResponseDTO execute(AuthCompanyRequestDTO authCompanyRequestDTO) throws AuthenticationException {
         Optional<CompanyEntity> company = Optional.ofNullable(
-                this.companyRepository.findByUsername(authCompanyRequestDTO.username())
-                    .orElseThrow(
-                        () -> new UsernameNotFoundException("username/password incorrect")
-                    )
-        );
+                this.companyRepository.findByUsername(authCompanyRequestDTO.username()).orElseThrow(UserNotFoundException::new));
 
         boolean passwordMatches = this.passwordEncoder.matches(authCompanyRequestDTO.password(), company.get().getPassword());
 

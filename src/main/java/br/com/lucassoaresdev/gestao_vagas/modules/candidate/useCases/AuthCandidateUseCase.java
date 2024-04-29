@@ -1,5 +1,6 @@
 package br.com.lucassoaresdev.gestao_vagas.modules.candidate.useCases;
 
+import br.com.lucassoaresdev.gestao_vagas.exceptions.UserNotFoundException;
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.entity.CandidateEntity;
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.repository.CandidateRepository;
 import br.com.lucassoaresdev.gestao_vagas.modules.candidate.dto.AuthCandidateRequestDTO;
@@ -8,7 +9,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class AuthCandidateUseCase {
 
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO authCandidateRequestDTO) throws AuthenticationException {
         Optional<CandidateEntity> candidate = Optional.ofNullable(this.candidateRepository.findByUsername(authCandidateRequestDTO.username())
-                .orElseThrow(() -> new UsernameNotFoundException("Username/password incorrect")));
+                .orElseThrow(UserNotFoundException::new));
 
         boolean passwordMatches = this.passwordEncoder.matches(authCandidateRequestDTO.password(), candidate.get().getPassword());
 
